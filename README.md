@@ -1,3 +1,6 @@
+
+##This project implements an intelligent financial analysis assistant powered by Azure OpenAI and Retrieval Augmented Generation.##
+
 **Executive Summary**
 
 In fast-paced investment environments, analysts must extract actionable insights from quarterly 10-Q filings that often exceed hundreds of pages. Manual review is time-consuming, cognitively demanding, and prone to oversight.
