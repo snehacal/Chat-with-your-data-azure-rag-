@@ -3,6 +3,7 @@
 ## Objective
 
 The purpose of this evaluation is to assess the reliability, grounding accuracy, and financial precision of the Azure-based Retrieval Augmented Generation (RAG) system built for analyzing 10-Q filings.
+This document outlines how the retrieval system was evaluated qualitatively and aligned to production evaluation considerations.
 
 The evaluation focuses on:
 
@@ -47,6 +48,7 @@ Each dimension is scored from 0 to 2:
 ---
 
 ## Sample Evaluation Results
+The scores below reflect manual assessment using the rubric defined earlier.
 
 | Prompt Category | Score | Observations |
 |----------------|--------|-------------|
@@ -101,7 +103,7 @@ gpt-4o-mini is sufficient for citation-grounded financial analysis when paired w
 - Add retrieval precision/recall measurement.
 - Incorporate latency benchmarking across prompt categories.
 
-
+---
 
 ## Production-Level Evaluation Considerations
 
