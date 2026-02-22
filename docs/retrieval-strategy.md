@@ -39,27 +39,7 @@ Example filter (conceptual):
 
 company eq 'Tesla' and item eq '1A'
 
-## 2) Metadata Tagging
 
-Each chunk carries structured metadata:
-
-| Metadata Field | Description |
-|----------------|-------------|
-| `company`      | Company name from the filing |
-| `filing_date`  | Report date (e.g., 2024-09-30) |
-| `section`      | Filing section (e.g., MD&A, Risk Factors) |
-| `item`         | Item number (1, 1A, 2, etc.) |
-
-This enables precise filtering and query routing:
-
-```text
-filter=company eq 'Tesla' and item eq '1A'
-
-
-
-This improves relevance and reduces irrelevant context.
-
----
 
 ## 3) Section-Aware Filtering
 
