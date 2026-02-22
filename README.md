@@ -130,3 +130,13 @@ This project demonstrates:
     Grounded response generation with citation traceability
     
     Retrieval optimization techniques
+
+
+    ## References
+
+**This project was built using the following external sources:
+
+- Azure AI Search + Azure OpenAI RAG pattern: https://learn.microsoft.com/en-us/azure/search/search-ai-openai-overview
+- Azure Samples repo with vector search demo: https://github.com/Azure-Samples/azure-search-openai-demo
+- Chat with Your Data accelerator (architecture inspiration): https://github.com/Azure-Samples/chat-with-your-data-solution-accelerator
+- Third-party prompt templates from Udacity
