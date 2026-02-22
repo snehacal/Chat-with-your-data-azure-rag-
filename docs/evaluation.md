@@ -1,4 +1,4 @@
-# Evaluation# 📊 Evaluation
+# Evaluation# 📊 
 
 ## Objective
 
@@ -100,6 +100,8 @@ gpt-4o-mini is sufficient for citation-grounded financial analysis when paired w
 - Benchmark GPT-4o vs gpt-4o-mini for reasoning depth comparison.
 - Add retrieval precision/recall measurement.
 - Incorporate latency benchmarking across prompt categories.
+
+
 
 ## Production-Level Evaluation Considerations
 
