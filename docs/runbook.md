@@ -1,4 +1,3 @@
-
 # Runbook
 
 This runbook provides operational guidance for deploying, validating, maintaining, and scaling the 10-Q Retrieval-Augmented Generation (RAG) system built using Azure AI Search and Azure OpenAI.
@@ -93,15 +92,11 @@ Verify:
 
 ## 3.1 Embedding Model
 
-
-text-embedding-3-large
-
+`text-embedding-3-large`
 
 ## 3.2 Generation Model
 
-
-gpt-4o-mini
-
+`gpt-4o-mini`
 
 ## 3.3 Retrieval Parameters
 
@@ -110,186 +105,175 @@ gpt-4o-mini
   "topK": 5,
   "minimumCoverage": 100
 }
-Configuration Rationale
+```
 
-TopK = 5 balances precision and recall.
+### Configuration Rationale
 
-minimumCoverage = 100 ensures full index scanning.
+- TopK = 5 balances precision and recall.
+- minimumCoverage = 100 ensures full index scanning.
+- Metadata filters reduce section noise.
 
-Metadata filters reduce section noise.
+---
 
-4. System Prompt Deployment
+# 4. System Prompt Deployment
 
-Open Azure AI Foundry → Chat Configuration
-
-Paste the validated system prompt
-
-Save configuration
-
-Test with sample prompts
+- Open Azure AI Foundry → Chat Configuration
+- Paste the validated system prompt
+- Save configuration
+- Test with sample prompts
 
 Ensure prompt enforces:
+- Grounding
+- Citation requirement
+- No external knowledge
+- Structured output
 
-Grounding
+---
 
-Citation requirement
+# 5. Functional Validation
 
-No external knowledge
-
-Structured output
-
-5. Functional Validation
-5.1 Test Prompts
+## 5.1 Test Prompts
 
 Run the following:
+- "Summarize the key risk factors."
+- "What were the revenue highlights?"
+- "Describe management's outlook."
 
-"Summarize the key risk factors."
+## 5.2 Validation Checklist
 
-"What were the revenue highlights?"
-
-"Describe management’s outlook."
-
-5.2 Validation Checklist
-Validation Item	Expected Result
-Response returned	Yes
-Citations included	Yes
-Claims match source	Yes
-No hallucination	Yes
-Section relevance	Correct
+| Validation Item | Expected Result |
+|-----------------|-----------------|
+| Response returned | Yes |
+| Citations included | Yes |
+| Claims match source | Yes |
+| No hallucination | Yes |
+| Section relevance | Correct |
 
 If any fail, review retrieval configuration.
 
-6. Monitoring
-6.1 Key Metrics
+---
+
+# 6. Monitoring
+
+## 6.1 Key Metrics
 
 Monitor via Azure Portal:
 
-Metric	Where
-Query latency	Azure AI Search metrics
-HTTP 503 errors	Azure AI Search logs
-Token usage	Azure OpenAI dashboard
-Throughput	Azure Monitor
-6.2 Recommended Alert Thresholds
-Metric	Alert Condition
-Latency	> 1 second
-Error Rate	> 1%
-503 errors	> 0 occurrences
-Token Cost Spike	> planned budget
-7. Troubleshooting Guide
-7.1 Indexer Failure
+| Metric | Where |
+|--------|-------|
+| Query latency | Azure AI Search metrics |
+| HTTP 503 errors | Azure AI Search logs |
+| Token usage | Azure OpenAI dashboard |
+| Throughput | Azure Monitor |
 
-Symptoms:
+## 6.2 Recommended Alert Thresholds
 
-Status = Failed
+| Metric | Alert Condition |
+|--------|-----------------|
+| Latency | > 1 second |
+| Error Rate | > 1% |
+| 503 errors | > 0 occurrences |
+| Token Cost Spike | > planned budget |
 
-Actions:
+---
 
-Verify Blob connection
+# 7. Troubleshooting Guide
 
-Check PDF extractability
+## 7.1 Indexer Failure
 
-Re-run indexer
+**Symptoms:**
+- Status = Failed
 
-7.2 No Relevant Results
+**Actions:**
+- Verify Blob connection
+- Check PDF extractability
+- Re-run indexer
 
-Symptoms:
+## 7.2 No Relevant Results
 
-Empty or unrelated responses
+**Symptoms:**
+- Empty or unrelated responses
 
-Actions:
+**Actions:**
+- Validate metadata filters
+- Temporarily increase TopK
+- Confirm embeddings generated correctly
 
-Validate metadata filters
+## 7.3 503 Service Unavailable
 
-Temporarily increase TopK
+**Cause:**
+- Search replicas insufficient
 
-Confirm embeddings generated correctly
+**Fix:**
+- Increase replica count
+- Monitor throughput
 
-7.3 503 Service Unavailable
+---
 
-Cause:
-
-Search replicas insufficient
-
-Fix:
-
-Increase replica count
-
-Monitor throughput
-
-8. Scaling Strategy
+# 8. Scaling Strategy
 
 Scale when:
-
-Latency increases
-
-Query volume increases
-
-503 errors occur
+- Latency increases
+- Query volume increases
+- 503 errors occur
 
 Options:
+- Increase AI Search replicas
+- Upgrade service tier
+- Optimize TopK if cost increases
 
-Increase AI Search replicas
+---
 
-Upgrade service tier
-
-Optimize TopK if cost increases
-
-9. Cost Management
+# 9. Cost Management
 
 Monitor:
-
-OpenAI token usage
-
-AI Search replica count
-
-Embedding calls per document
+- OpenAI token usage
+- AI Search replica count
+- Embedding calls per document
 
 Cost Controls:
+- Use gpt-4o-mini for generation
+- Keep TopK controlled
+- Avoid unnecessary re-indexing
 
-Use gpt-4o-mini for generation
+---
 
-Keep TopK controlled
+# 10. Security Practices
 
-Avoid unnecessary re-indexing
-
-10. Security Practices
-
-Never commit API keys
-
-Use environment variables
-
-Maintain .env.example template
+- Never commit API keys
+- Use environment variables
+- Maintain .env.example template
 
 Example:
-
+```
 AZURE_OPENAI_ENDPOINT=
 AZURE_OPENAI_KEY=
 AZURE_SEARCH_ENDPOINT=
 AZURE_SEARCH_KEY=
-11. Rollback Plan
+```
+
+---
+
+# 11. Rollback Plan
 
 If deployment fails:
+- Revert to last working configuration
+- Re-validate indexer
+- Re-test prompt suite
+- Confirm citation correctness
 
-Revert to last working configuration
+---
 
-Re-validate indexer
-
-Re-test prompt suite
-
-Confirm citation correctness
-
-12. Post-Deployment Review
+# 12. Post-Deployment Review
 
 After changes:
-
-Re-run validation prompts
-
-Verify citation accuracy
-
-Log latency and cost
-
-Document issues
+- Re-run validation prompts
+- Verify citation accuracy
+- Log latency and cost
+- Document issues
 
 Maintain log:
 
-Date	Change	Impact	Resolved
+| Date | Change | Impact | Resolved |
+|------|--------|--------|----------|
+| | | | |
