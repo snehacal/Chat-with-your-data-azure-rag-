@@ -7,6 +7,4 @@ Azure OpenAI (GPT-4) + RAG logic
 ↓ 
 Chat application / prompt interface (Foundry UI)
 
-<img width="400" height="608" alt="image" src="https://github.com/user-attachments/assets/73369ac6-5745-42ea-a248-6a83b993f427" />
-
-
+<img width="413" height="574" alt="image" src="https://github.com/user-attachments/assets/a420c04b-d2c9-474e-8971-917b4ae8528f" />
