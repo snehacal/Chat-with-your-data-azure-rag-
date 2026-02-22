@@ -100,3 +100,31 @@ gpt-4o-mini is sufficient for citation-grounded financial analysis when paired w
 - Benchmark GPT-4o vs gpt-4o-mini for reasoning depth comparison.
 - Add retrieval precision/recall measurement.
 - Incorporate latency benchmarking across prompt categories.
+
+## Production-Level Evaluation Considerations
+
+While this project focuses on functional validation, enterprise-grade RAG systems are typically evaluated against additional operational metrics:
+
+### Retrieval Precision
+Measures how often the retrieved chunks contain relevant sections for the query.
+Not formally measured in this implementation but qualitatively observed to be strong with heading-based chunking and metadata filtering.
+
+### Hallucination Rate
+Tracks the frequency of unsupported claims in model responses.
+No hallucinations were observed during manual evaluation when retrieval returned relevant context.
+
+### Latency
+Time taken from user query to response generation.
+Observed to be low using gpt-4o-mini; formal latency benchmarking not conducted.
+
+### Cost per Query
+Estimated cost based on token usage and model pricing.
+gpt-4o-mini was selected to optimize cost efficiency for RAG-based document analysis.
+
+### Error Rate
+Includes failed retrievals, empty context returns, or service errors.
+No runtime failures observed during manual testing.
+
+### Citation Accuracy
+Measures whether citations correctly map to the source sections.
+Manual review confirmed high citation accuracy across evaluated prompts.
