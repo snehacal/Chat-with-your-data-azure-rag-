@@ -1,31 +1,43 @@
 # Retrieval Strategy
 
-This document explains the structured retrieval approach implemented in the project to ensure precise, relevant, and citation-grounded answers from 10-Q financial documents.
-
-The design focuses on aligning retrieval outputs with the structure of SEC filings, minimizing noise, and enforcing context grounding before generation.
+This document explains the retrieval approach used to produce precise, relevant, and citation-grounded answers from SEC 10-Q filings. The strategy aligns retrieval with the structure of 10-Q documents, reduces noise, and strengthens grounding before generation.
 
 ---
 
 ## 1) Document Chunking
 
-### Heading-Based Chunking
+### Heading-based chunking
 
-Rather than splitting documents by token count alone, this system leverages the natural structure of 10-Q filings:
+Instead of splitting by token count alone, the system follows the natural structure of a 10-Q:
 
-- Detects major sections like:
-  - Item 1A – Risk Factors  
-  - Item 2 – Management’s Discussion & Analysis (MD&A)  
-  - Item 1 – Financial Statements  
-  - Notes and Legal Proceedings
+- Item 1 – Financial Statements  
+- Item 1A – Risk Factors  
+- Item 2 – Management’s Discussion & Analysis (MD&A)  
+- Notes and Legal Proceedings  
 
-Chunks are created around these headings so that each chunk represents a coherent semantic block.
+Chunks are created around these headings so each chunk stays semantically coherent.
 
 **Benefits**
-- Preserves section meaning  
-- Reduces retrieval noise  
+- Preserves section meaning
+- Reduces retrieval noise
 - Improves grounding quality
 
 ---
+
+## 2) Metadata Tagging
+
+Each chunk is tagged with metadata to support filtering and better relevance.
+
+| Metadata field | Description |
+|---|---|
+| `company` | Company name from the filing |
+| `filing_date` | Reporting date (example: 2024-09-30) |
+| `section` | Section label (MD&A, Risk Factors, Financial Statements, etc.) |
+| `item` | Item number (1, 1A, 2, etc.) |
+
+Example filter (conceptual):
+
+company eq 'Tesla' and item eq '1A'
 
 ## 2) Metadata Tagging
 
