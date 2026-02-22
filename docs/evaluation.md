@@ -1,9 +1,10 @@
-# Evaluation# 📊 
+# Evaluation
 
-## Objective
+This document outlines how the retrieval system was evaluated qualitatively and aligned with production evaluation considerations for a Retrieval Augmented Generation (RAG) application on 10-Q financial filings.
 
-The purpose of this evaluation is to assess the reliability, grounding accuracy, and financial precision of the Azure-based Retrieval Augmented Generation (RAG) system built for analyzing 10-Q filings.
-This document outlines how the retrieval system was evaluated qualitatively and aligned to production evaluation considerations.
+## Evaluation Objective
+
+The objective of this evaluation is to assess the reliability, grounding accuracy, and financial precision of the RAG system built using Azure AI Search and Azure OpenAI.
 
 The evaluation focuses on:
 
@@ -11,9 +12,7 @@ The evaluation focuses on:
 - Citation accuracy  
 - Financial numerical precision  
 - Hallucination control  
-- Structured response compliance  
-
----
+- Structured response compliance
 
 ## Evaluation Method
 
@@ -27,16 +26,14 @@ Five prompts were tested across core financial analysis dimensions:
 | Management Outlook | Forward-looking statements |
 | Legal / Disclosures | Material disclosures or proceedings |
 
-Each response was manually reviewed using the scoring rubric below.
-
----
+The scores below reflect **manual assessment** using the scoring rubric defined in the next section.
 
 ## Scoring Rubric (0–2 Scale)
 
 Each dimension is scored from 0 to 2:
 
 | Dimension | 0 | 1 | 2 |
-|------------|----|----|----|
+|-----------|----|----|----|
 | Grounding | Unsupported claims | Partial citations | All claims supported by citations |
 | Citation Accuracy | Incorrect sections | Minor mismatch | Fully accurate section references |
 | Financial Precision | Inaccurate figures | Minor rounding | Exact figures with reporting period |
@@ -45,31 +42,24 @@ Each dimension is scored from 0 to 2:
 
 **Maximum score per prompt: 10**
 
----
-
 ## Sample Evaluation Results
-The scores below reflect manual assessment using the rubric defined earlier.
 
 | Prompt Category | Score | Observations |
 |----------------|--------|-------------|
 | Financial Performance | 9/10 | Exact figures reported with correct citations |
-| Risk Factors | 10/10 | Proper section targeting and citation discipline |
+| Risk Factors | 10/10 | Section-aware extraction with precise citations |
 | Operations | 8/10 | Accurate but slightly verbose |
 | Management Outlook | 9/10 | Clear citation traceability |
 
 **Average Evaluation Score: 9/10**
 
----
-
 ## Retrieval Performance Observations
 
 - Heading-based chunking improved contextual alignment with filing sections.
 - Metadata tagging reduced cross-section noise.
-- Top-K set to 5 provided a strong balance between precision and recall.
-- minimumCoverage ensured complete index scanning.
-- No hallucinations observed when retrieval returned relevant context.
-
----
+- Top-K = 5 provided a balanced precision/recall trade-off.
+- `minimumCoverage` ensured complete index scanning.
+- No hallucinations were observed when relevant context was retrieved.
 
 ## Model Performance
 
@@ -78,23 +68,18 @@ Model used: **gpt-4o-mini**
 Observed characteristics:
 
 - Low latency and responsive interaction  
-- Strong citation compliance under system prompt constraints  
+- Strong citation discipline under the system prompt constraints  
 - Reliable for structured financial document Q&A  
-- Performance quality closely tied to retrieval accuracy  
+- Response quality closely tied to retrieval accuracy
 
-Conclusion:
-
-gpt-4o-mini is sufficient for citation-grounded financial analysis when paired with structured retrieval and strong system prompt controls.
-
----
+**Conclusion:**  
+*gpt-4o-mini is sufficient for citation-grounded financial analysis when paired with structured retrieval and a strict system prompt.*
 
 ## Limitations
 
 - Cross-quarter comparisons require retrieval of both periods.
 - Very large financial tables may exceed token limits.
-- Evaluation currently based on manual scoring rather than automated metrics.
-
----
+- Evaluation is based on **manual scoring**, not automated metrics.
 
 ## Future Enhancements
 
@@ -103,32 +88,30 @@ gpt-4o-mini is sufficient for citation-grounded financial analysis when paired w
 - Add retrieval precision/recall measurement.
 - Incorporate latency benchmarking across prompt categories.
 
----
-
 ## Production-Level Evaluation Considerations
 
-While this project focuses on functional validation, enterprise-grade RAG systems are typically evaluated against additional operational metrics:
+In enterprise environments, additional metrics are typically monitored:
 
 ### Retrieval Precision
-Measures how often the retrieved chunks contain relevant sections for the query.
-Not formally measured in this implementation but qualitatively observed to be strong with heading-based chunking and metadata filtering.
+Measures how often retrieved chunks contain relevant sections.  
+Not formally measured here but observed to be strong with heading-based chunking and metadata filtering.
 
 ### Hallucination Rate
-Tracks the frequency of unsupported claims in model responses.
-No hallucinations were observed during manual evaluation when retrieval returned relevant context.
+Tracks the frequency of unsupported claims in model responses.  
+No hallucinations were observed during manual evaluation with correct context retrieval.
 
 ### Latency
-Time taken from user query to response generation.
-Observed to be low using gpt-4o-mini; formal latency benchmarking not conducted.
+Time taken from user query to response generation.  
+Observed to be low using gpt-4o-mini; formal latency benchmarking was not conducted.
 
 ### Cost per Query
-Estimated cost based on token usage and model pricing.
-gpt-4o-mini was selected to optimize cost efficiency for RAG-based document analysis.
+Estimated based on token usage and model pricing.  
+gpt-4o-mini was selected to optimize cost efficiency.
 
 ### Error Rate
-Includes failed retrievals, empty context returns, or service errors.
-No runtime failures observed during manual testing.
+Includes failed retrievals or empty context returns.  
+No runtime failures were observed during manual testing.
 
 ### Citation Accuracy
-Measures whether citations correctly map to the source sections.
+Measures whether citations correctly map to the source sections.  
 Manual review confirmed high citation accuracy across evaluated prompts.
